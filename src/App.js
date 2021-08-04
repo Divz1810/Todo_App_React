@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React from 'react';
+import Input from './input';
+import List from './List';
 import './App.css';
+class App extends React.Component{
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  state={
+    tasks: ["Make Coffee", "Make Notes"],
+    currInput: "",
+  }
+
+  handleCurrInput = (value)=>{
+    this.setState({currInput:value})
+  }
+
+  deleteTask =(singleTask)=>{
+    let currTaskArr= this.state.tasks;
+    let filteredArray=currTaskArr.filter((element)=>{
+      return element !== singleTask;
+    })
+    this.setState({tasks: filteredArray})
+  }
+
+  handleTasks=()=>{
+    this.setState({tasks: [...this.state.tasks, this.state.currInput],
+      currInput: "",
+      });
+  };
+
+  render = () =>{
+    return (
+      <div>
+        <Input handleCurrInput= {this.handleCurrInput}  handleTasks={this.handleTasks} currInput={this.state.currInput}/>
+        <List tasks= {this.state.tasks} deleteTask= {this.deleteTask} />
+      </div>
+    );
+  }
 }
 
 export default App;
